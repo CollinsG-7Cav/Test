@@ -1,0 +1,141 @@
+import UIKit
+
+extension NSDate {
+    func dayOfWeek() -> Int? {
+        guard
+            let calender: NSCalendar = NSCalendar.currentCalendar(),
+            let component: NSDateComponents = calender.components(.Weekday, fromDate: self) else { return nil }
+        return component.weekday
+    }
+}
+
+class ViewController: UIViewController {
+
+
+    @IBOutlet var timeOfTheDay: UILabel! //Top Label for showing current time
+
+    @IBOutlet var Status: UILabel!  //Status Label for showing open or close
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.dateCheck()
+
+
+
+    }
+
+    func dateCheck()
+    {
+
+        let today = NSDate().dayOfWeek()
+
+        if today == 1
+        {
+            //print("Sunday")
+            self.closed()
+
+        }
+        else if today == 2
+        {
+            //print("Monday")
+            self.closed()
+        }
+        else if today == 3
+        {
+            //print("Tuesday")
+            self.uptoEvening()
+        }
+        else if today == 4
+        {
+            //print("Wednesday")
+            self.uptoNight()
+        }
+        else if today == 5
+        {
+          //  print("Thursday")
+            self.uptoNight()
+
+        }
+        else if today == 6
+        {
+            //print("Friday")
+            self.uptoNight()
+
+        }
+        else
+        {
+            //print("Saturday")
+            self.uptoEvening()
+        }
+    }
+
+    func getTime() -> (hour:Int, minute:Int, second:Int) {
+        let currentDateTime = NSDate()
+        let calendar = NSCalendar.currentCalendar()
+        let component = calendar.components([.Hour,.Minute,.Second], fromDate: currentDateTime)
+        let hour = component.hour
+        let minute = component.minute
+        let second = component.second
+        return (hour,minute,second)
+    }
+
+
+    func closed()
+    {
+        timeOfTheDay.text = String(getTime().hour)+" : "+String(getTime().minute)+" : "+String(getTime().second)
+        timeOfTheDay.backgroundColor = UIColor.redColor()
+        timeOfTheDay.textColor = UIColor.whiteColor()
+
+        Status.text = "Sorry! Today, We are Closed!"
+        Status.backgroundColor = UIColor.redColor()
+        Status.textColor = UIColor.whiteColor()
+
+    }
+
+    func opened(endTime:String)
+    {
+        timeOfTheDay.text = String(getTime().hour)+" : "+String(getTime().minute)+" : "+String(getTime().second)
+        timeOfTheDay.backgroundColor = UIColor.greenColor()
+        timeOfTheDay.textColor = UIColor.whiteColor()
+
+        Status.text = "Hi! still we are opened upto "+endTime
+        Status.backgroundColor = UIColor.greenColor()
+        Status.textColor = UIColor.whiteColor()
+    }
+
+
+    func uptoEvening()
+    {
+
+        let time = getTime().hour
+
+        switch time
+        {
+            case 09...16: opened("17")  //set time for 09:00 to 16:59
+            default:closed()
+        }
+    }
+
+    func uptoNight()
+    {
+
+        let time = getTime().hour
+
+        switch time
+        {
+        case 09...20: opened("21") //set time for 09:00 to 20:59
+        default:closed()
+        }
+
+    }
+
+
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+
+    }
+
+
+}
