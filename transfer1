@@ -1,0 +1,12 @@
+Var array = [“Safety”,”Quality”,”Cost”,”Delivery”,”People”,”WIP”]
+Override func collectionView(_ collectionView: UICollectionvIEW, NUMBERoFiTEMSiNsECTION SECTION: Int) -> Int }
+return array.count
+}
+Override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+Let cell = collectionView.dequeueReusableCell(withReuseIdentifier: “cell” , for: IndexPath) as! UICollectionViewCell
+//ensure cell name is “cell” 
+Var label = cell.viewWithTag(tag: 1) as! UILabel
+Label.text  = array[indexPath.row]
+//set label tag to 1
+Return cell
+}
